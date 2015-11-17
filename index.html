@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <title>index</title>
+  <body onload="init()">
+   <canvas id="canvas" width="700" height="500"></canvas>
+   <img alt="Layer 0" id="image1" style="display: none" src="image1.png" />
+   <img alt="Layer 0" id="image2" style="display: none" src="image2.png" />
+   <img alt="Layer 0" id="image3" style="display: none" src="image3.png" />
+   <img alt="Layer 0" id="image4" style="display: none" src="image4.png" />
+   <img alt="Layer 0" id="image5" style="display: none" src="image5.png" />
+   <img alt="rocket" id="image6" style="display: none" src="rocket.png" />
+
+
+ </body>
+  <canvas id="myCanvas" width="800" height="400"></canvas>
+    <script>
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+
+      
+      context.font = '50pt Comic';
+      context.fillStyle = 'Red';
+      context.fillText('Hello World!', 200, 150);
+      context.beginPath();
+      context.moveTo(100, 150);
+      context.lineTo(550, 80);
+      context.stroke();
+      ontext.lineWidth = 20;
+
+     
+
+      // flip context horizontally
+      context.scale(-1, 1);
+
+     
+      
+    </script>
+  <script src="TsinghCanvas.js"></script>
+  <script>
+
+    // Main canvas and context references
+    var canvas;
+    var ctx;
+
+    // Frames per second
+    var fps = 60.0;
+
+    // Animations
+    var animations = [ new asteroidPath(), new asteroid2Path(), new alienPath(), new rocketPath() ];
+
+    function asteroidPath() {
+
+      // Control and anchor points
+      this.points = [
+                    [ [396.7, 443.1], [472.2, 362.8], [547.6, 282.4], [625.4, 199.6] ]
+                    ];
+
+      // Linear motion index
+      this.linear = [
+                    [0, 0.00, 0.00], [0, 0.17, 0.17], [0, 0.34, 0.33], [0, 0.50, 0.50], 
+                    [0, 0.67, 0.67], [0, 0.84, 0.83], [0, 1.00, 1.00]
+                    ];
+
+      // Segment T boundaries
+      this.segmentT = [1.00];
+
+      this.lastValue = -1.0;
+      this.x = 0;
+      this.y = 0;
+      this.orientation = 0.0;
+      this.pathClock = new clock(4.00, 0.00, 1, false, 1, quintEaseOut, this.linear.length - 1, 1.00, 0.0000);
+
+      // Update function
+      this.update = updatePath;
+    }
+
+    function asteroid2Path() {
+
+      // Control and anchor points
+      this.points = [
+                    [ [799.9, 425.3], [760.3, 357.9], [720.8, 290.6], [680.0, 221.1] ]
+                    ];
+
+      // Linear motion index
+      this.linear = [
+                    [0, 0.00, 0.00], [0, 0.25, 0.25], [0, 0.50, 0.50], [0, 0.75, 0.75], 
+                    [0, 1.00, 1.00]
+                    ];
+
+      // Segment T boundaries
+      this.segmentT = [1.00];
+
+      this.lastValue = -1.0;
+      this.x = 0;
+      this.y = 0;
+      this.orientation = 0.0;
+      this.pathClock = new clock(4.00, 0.00, 1, false, 1, quintEaseOut, this.linear.length - 1, 1.00, 0.0000);
+
+      // Update function
+      this.update = updatePath;
+    }
+
+    function alienPath() {
+
+      // Control and anchor points
+      this.points = [
+                    [ [265.0, 136.8], [352.6, 139.4], [440.2, 141.9], [530.5, 144.5] ]
+                    ];
+
+      // Linear motion index
+      this.linear = [
+                    [0, 0.00, 0.00], [0, 0.20, 0.20], [0, 0.40, 0.40], [0, 0.60, 0.60], 
+                    [0, 0.80, 0.80], [0, 1.00, 1.00]
+                    ];
+
+      // Segment T boundaries
+      this.segmentT = [1.00];
+
+      this.lastValue = -1.0;
+      this.x = 0;
+      this.y = 0;
+      this.orientation = 0.0;
+      this.pathClock = new clock(10.00, 0.00, 1, false, 0, linear, this.linear.length - 1, 1.00, 0.0000);
+
+      // Update function
+      this.update = updatePath;
+    }
+
+    function rocketPath() {
+
+      // Control and anchor points
+      this.points = [
+                    [ [125.8, 469.7], [201.3, 381.9], [231.0, 285.5], [331.7, 251.6] ],
+                    [ [331.7, 251.6], [432.4, 217.8], [416.3, 249.3], [514.6, 275.4] ],
+                    [ [514.6, 275.4], [613.0, 301.4], [701.5, 281.1], [740.0, 248.6] ]
+                    ];
+
+      // Linear motion index
+      this.linear = [
+                    [0, 0.00, 0.00], [0, 0.15, 0.07], [0, 0.32, 0.14], [0, 0.49, 0.21], 
+                    [0, 0.67, 0.29], [0, 0.85, 0.36], [1, 0.03, 0.43], [1, 0.26, 0.50], 
+                    [1, 0.63, 0.57], [1, 0.90, 0.64], [2, 0.08, 0.71], [2, 0.27, 0.79], 
+                    [2, 0.47, 0.86], [2, 0.71, 0.93], [2, 1.00, 1.00]
+                    ];
+
+      // Segment T boundaries
+      this.segmentT = [0.42, 0.68, 1.00];
+
+      this.lastValue = -1.0;
+      this.x = 0;
+      this.y = 0;
+      this.orientation = 0.0;
+      this.pathClock = new clock(10.00, 0.00, 1, false, 0, linear, this.linear.length - 1, 1.00, 0.0000);
+
+      // Update function
+      this.update = updatePath;
+    }
+
+    function init() {
+
+      // Set main canvas and context references
+      canvas = document.getElementById("canvas");
+      ctx = canvas.getContext("2d");
+
+      // Initialize animations
+      asteroid.scaleClock = new clock(10.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
+      asteroid2.scaleClock = new clock(8.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
+      alien.scaleClock = new clock(8.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
+      spaceStation.scaleClock = new clock(5.00, 0.00, 1, false, 1, expoEaseOut, 1.0, 11.00, 1.0000);
+      spaceStation.alphaClock = new clock(6.00, 0.00, -1, false, 1, linear, 1.0, 1.00, 0.0000);
+      rocket.followOrientation = 90.00 * Math.PI / 180.0;
+
+      // Start animation clocks
+      animations[0].pathClock.start();
+      animations[1].pathClock.start();
+      animations[2].pathClock.start();
+      asteroid.scaleClock.start();
+      animations[3].pathClock.start();
+      asteroid2.scaleClock.start();
+      alien.scaleClock.start();
+      spaceStation.scaleClock.start();
+      spaceStation.alphaClock.start();
+
+      // Set animation timer
+      setInterval(drawFrame, (1000 / fps));
+    }
+
+    function updateAnimations() {
+
+      // Update animation clocks
+      updateAllClocks();
+
+      // Update animation paths  
+      var animationCount = animations.length;
+      for (var i = 0; i < animationCount; i++) {
+        animations[i].update();
+      }
+    }
+
+    function drawFrame() {
+
+      // Update animations
+      updateAnimations();
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      stars(ctx);
+
+      ctx.save();
+      ctx.translate(animations[0].x, animations[0].y);
+      ctx.scale(asteroid.scaleClock.value, asteroid.scaleClock.value);
+      asteroid(ctx);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(animations[0].x, animations[0].y);
+      ctx.scale(asteroid2.scaleClock.value, asteroid2.scaleClock.value);
+      asteroid2(ctx);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(animations[0].x, animations[0].y);
+      ctx.scale(alien.scaleClock.value, alien.scaleClock.value);
+      alien(ctx);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(702.0, 153.3);
+      ctx.scale(spaceStation.scaleClock.value, spaceStation.scaleClock.value);
+      ctx.globalAlpha = spaceStation.alphaClock.value;
+      spaceStation(ctx);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(animations[3].x, animations[3].y);
+      ctx.rotate(rocket.followOrientation + animations[3].orientation);
+      rocket(ctx);
+      ctx.restore();
+
+      draw(ctx);
+    }
+
+    function stars(ctx) {
+
+      
+      ctx.save();
+
+    
+      ctx.save();
+      ctx.drawImage(document.getElementById("image1"), 0.0, 0.0);
+      ctx.restore();
+      ctx.restore();
+    }
+
+    function asteroid(ctx) {
+
+      
+      ctx.save();
+
+      
+      ctx.save();
+      ctx.drawImage(document.getElementById("image2"), -73.9, -74.7);
+      ctx.restore();
+      ctx.restore();
+    }
+
+    function asteroid2(ctx) {
+
+      
+      ctx.save();
+
+      
+      ctx.save();
+      ctx.drawImage(document.getElementById("image3"), -76.5, -80.6);
+      ctx.restore();
+      ctx.restore();
+    }
+
+    function alien(ctx) {
+
+      
+      ctx.save();
+
+      
+      ctx.save();
+      ctx.drawImage(document.getElementById("image4"), -211.5, -144.6);
+
+      
+      ctx.restore();
+      ctx.beginPath();
+      ctx.moveTo(211.5, 144.6);
+      ctx.lineTo(211.5, 144.6);
+      ctx.restore();
+    }
+
+    function spaceStation(ctx) {
+
+      
+      ctx.save();
+
+      
+      ctx.save();
+      ctx.drawImage(document.getElementById("image5"), -205.5, -105.7);
+      ctx.restore();
+      ctx.restore();
+    }
+
+    function rocket(ctx) {
+
+      // rocket
+      ctx.drawImage(document.getElementById("image6"), -44.0, -68.5);
+    }
+
+    function draw(ctx) {
+
+      // layer9/
+      ctx.save();
+      ctx.restore();
+    }
+  </script>
+ </head>
+</html>

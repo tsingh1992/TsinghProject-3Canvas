@@ -14,29 +14,39 @@
 
 
  </body>
-  <canvas id="myCanvas" width="800" height="400"></canvas>
-    <script>
-      var canvas = document.getElementById('myCanvas');
-      var context = canvas.getContext('2d');
+  <div>
+  <canvas id="c6" width="700" height = "200" style="border:dotted 2px #FF0000;"></canvas>
+  <div>
+    <button onclick="showFillText();return true;">Fill Text</button>
+    <button onclick="showStrokeText();return true;">Stroke Text</button>
+    <button onclick="Clear_text();return true;">Erase Everything</button>
+  </div>
+</div>
+ 
+<script>
+  var c6 = document.getElementById("c6");
+  var c6_context = c6.getContext("2d");
+  
+  function showFillText() {
+  c6_context.fillStyle = '#7B68EE';
+  c6_context.font = 'italic bold 50px sans-serif';
+  c6_context.textBaseline = 'bottom';
+  c6_context.fillText('Hello World', 40, 80);
+  }
+  
+  function showStrokeText() {
+    c6_context.strokeStyle = "##0000CD";
+  c6_context.font = '55px san-serif';
+  c6_context.textBaseline = 'bottom';
+  c6_context.strokeText('HTML5 is Good', 250, 100);
+  }
+  
+    function Clear_text() {
+  c6_context.clearRect(1, 1, 600, 300);
+  } 
+  
 
-      
-      context.font = '50pt Comic';
-      context.fillStyle = 'Red';
-      context.fillText('Hello World!', 200, 150);
-      context.beginPath();
-      context.moveTo(100, 150);
-      context.lineTo(550, 80);
-      context.stroke();
-      ontext.lineWidth = 20;
-
-     
-
-      // flip context horizontally
-      context.scale(-1, 1);
-
-     
-      
-    </script>
+</script>
   <script src="TsinghCanvas.js"></script>
   <script>
 

@@ -4,46 +4,143 @@
   <meta charset="UTF-8" />
   <title>index</title>
   <body onload="init()">
-   <canvas id="canvas" width="700" height="500"></canvas>
+  <input type = "text" id = "inputUserName"  value = "Enter your name" size="50"  style="font-size:18px; color:#AF2E1F; text-align: center; margin-left:25px " /></br>
+   <canvas id="canvas" width="500" height="400"></canvas>
    <img alt="Layer 0" id="image1" style="display: none" src="image1.png" />
    <img alt="Layer 0" id="image2" style="display: none" src="image2.png" />
    <img alt="Layer 0" id="image3" style="display: none" src="image3.png" />
    <img alt="Layer 0" id="image4" style="display: none" src="image4.png" />
    <img alt="Layer 0" id="image5" style="display: none" src="image5.png" />
    <img alt="rocket" id="image6" style="display: none" src="rocket.png" />
-
-
- </body>
-  <div>
-  <canvas id="c6" width="700" height = "200" style="border:dotted 2px #FF0000;"></canvas>
-  <div>
-    <button onclick="showFillText();return true;">Fill Text</button>
-    <button onclick="showStrokeText();return true;">Stroke Text</button>
-    <button onclick="Clear_text();return true;">Erase Everything</button>
+   
+   <div>
+	<canvas id="myDrawCanvas" width="500" height = "400" style="position:absolute; top:25px; left:575px; z-index:3; border:dotted 2px #bcbcbc"> 
+		<INPUT TYPE ="Button" VALUE="DrawRrandomShapes " onClick="drawOnCanvas()">
+	</canvas> 
   </div>
-</div>
- 
+  
+  <div>
+	<canvas id="c6" width="500" height = "100" style="border:dotted 2px #FF0000;"></canvas>
+		<div>
+		<button onclick="showFillText();return true;">Fill Text</button>
+		<button onclick="showStrokeText();return true;">Stroke Text</button>
+		<button onclick="Clear_text();return true;">Erase Everything</button>
+		<INPUT TYPE ="Button" VALUE="DrawRrandomShapes " onClick="drawOnCanvas()">
+		</div>
+   </div>
+ </body> 
 <script>
   var c6 = document.getElementById("c6");
   var c6_context = c6.getContext("2d");
   
   function showFillText() {
   c6_context.fillStyle = '#7B68EE';
-  c6_context.font = 'italic bold 50px sans-serif';
+  c6_context.font = 'italic bold 30px sans-serif';
   c6_context.textBaseline = 'bottom';
-  c6_context.fillText('Hello World', 40, 80);
+  var userName = document.getElementById("inputUserName").value;
+  c6_context.fillText( userName + ': Welcome to *Star Wars*', 10, 30);
   }
   
   function showStrokeText() {
     c6_context.strokeStyle = "##0000CD";
-  c6_context.font = '55px san-serif';
+  c6_context.font = '30px san-serif';
   c6_context.textBaseline = 'bottom';
-  c6_context.strokeText('HTML5 is Good', 250, 100);
+  c6_context.strokeText('Never tell me the odds!', 40, 60);
+  c6_context.strokeText('I’m not afraid. You will be....',90, 90);
   }
   
-    function Clear_text() {
-  c6_context.clearRect(1, 1, 600, 300);
+  function Clear_text() {
+  c6_context.clearRect(1, 1, 700, 300);
   } 
+  
+  function drawOnCanvas () {
+	var myDrawCanvasObject = document.getElementById("myDrawCanvas");
+	if ( myDrawCanvasObject.getContext ) { 
+		var myDrawCanvasObject_context = myDrawCanvasObject.getContext("2d");
+		//alert("test if the 2D myDrawCanvasObject_context supported");
+		
+			function drawCustomShape(){
+				// begin custom shape
+			  myDrawCanvasObject_context.beginPath();
+			  myDrawCanvasObject_context.moveTo(170, 80);
+			  myDrawCanvasObject_context.bezierCurveTo(130, 100, 130, 150, 230, 150);
+			  myDrawCanvasObject_context.bezierCurveTo(250, 180, 320, 180, 340, 150);
+			  myDrawCanvasObject_context.bezierCurveTo(420, 150, 420, 120, 390, 100);
+			  myDrawCanvasObject_context.bezierCurveTo(430, 40, 370, 30, 340, 50);
+			  myDrawCanvasObject_context.bezierCurveTo(320, 5, 250, 20, 250, 50);
+			  myDrawCanvasObject_context.bezierCurveTo(200, 5, 150, 20, 170, 80);
+			  // complete custom shape
+			  myDrawCanvasObject_context.closePath();
+			  myDrawCanvasObject_context.lineWidth = 5;
+			  myDrawCanvasObject_context.strokeStyle = 'blue';
+			  myDrawCanvasObject_context.stroke();
+			}
+			function drawRect(){
+			  //three methods for rectangle 
+			  myDrawCanvasObject_context.fillRect( 20, 100, 100, 50 );
+			  myDrawCanvasObject_context.strokeRect( 20, 30, 100, 50 );
+			  myDrawCanvasObject_context.clearRect( 35, 110, 50, 30 );
+			 }
+
+			function drawCricle(){
+			  //Gradient setup
+				var lin_grad = myDrawCanvasObject_context.createLinearGradient( 0, 0, 0, 400 );
+				//set the start and stop color 
+				lin_grad.addColorStop(0, "#fc007b" );
+				lin_grad.addColorStop(0.5, "#c90062" );
+				lin_grad.addColorStop(1, "#fd99ca" );
+				//set up the canvas rectangle
+				//myDrawCanvasObject_context.fillStyle = lin_grad;
+				//myDrawCanvasObject_context.fillRect(0, 0, 400, 400);
+				
+			  //circle with above gradient
+			  var start_degrees = 0;
+				var start_angle = ( Math.PI/180 ) * start_degrees;
+				var end_degrees = 360;
+				var end_angle = ( Math.PI/180 ) * end_degrees;
+				myDrawCanvasObject_context.beginPath();
+				myDrawCanvasObject_context.arc(75,275,50,start_angle, end_angle,true);
+				myDrawCanvasObject_context.strokeStyle = "rgb( 0,222,0 )";
+				myDrawCanvasObject_context.stroke();
+				//apply gradient 
+				myDrawCanvasObject_context.fillStyle = lin_grad;
+				myDrawCanvasObject_context.fill();
+				//myDrawCanvasObject_context.fillStyle = "rgb( 0,222,0 )";
+				//myDrawCanvasObject_context.fill();
+			 }
+			
+			function drawTriangle(){
+			  //triangle in cloud 
+			  myDrawCanvasObject_context.beginPath()
+			  myDrawCanvasObject_context.moveTo(275,200);
+			  myDrawCanvasObject_context.lineTo(350,300);
+			  myDrawCanvasObject_context.lineTo(350, 125);
+			  myDrawCanvasObject_context.closePath();
+			  myDrawCanvasObject_context.stroke();
+			  myDrawCanvasObject_context.fillStyle = "rgb(255,0,0)";
+				myDrawCanvasObject_context.strokeStyle = "rgb( 0, 0, 255 )";
+				myDrawCanvasObject_context.lineWidth = 5;
+				myDrawCanvasObject_context.stroke();
+				myDrawCanvasObject_context.fill();
+			}
+				
+			function drawV(){
+				//V shape
+				myDrawCanvasObject_context.beginPath();
+				myDrawCanvasObject_context.lineWidth = 20;
+				myDrawCanvasObject_context.lineJoin = "round";
+				//(x,y) on the scale plane
+				myDrawCanvasObject_context.moveTo(275, 250);
+				myDrawCanvasObject_context.lineTo(350, 350);
+				myDrawCanvasObject_context.lineTo(430, 250);
+				myDrawCanvasObject_context.stroke();
+				}
+			}
+			var functions = [drawCustomShape, drawRect, drawCricle, drawTriangle, drawV];
+			setInterval(function(){
+			   functions[Math.floor(Math.random()*functions.length)]();
+			}, 200);
+}
   
 
 </script>
@@ -177,7 +274,7 @@
       // Initialize animations
       asteroid.scaleClock = new clock(10.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
       asteroid2.scaleClock = new clock(8.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
-      alien.scaleClock = new clock(8.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
+      alien.scaleClock = new clock(38.00, 0.00, -1, false, 1, quintEaseIn, 1.0, 1.00, 0.0001);
       spaceStation.scaleClock = new clock(5.00, 0.00, 1, false, 1, expoEaseOut, 1.0, 11.00, 1.0000);
       spaceStation.alphaClock = new clock(6.00, 0.00, -1, false, 1, linear, 1.0, 1.00, 0.0000);
       rocket.followOrientation = 90.00 * Math.PI / 180.0;
@@ -301,8 +398,8 @@
       
       ctx.restore();
       ctx.beginPath();
-      ctx.moveTo(211.5, 144.6);
-      ctx.lineTo(211.5, 144.6);
+      ctx.moveTo(11.5, 144.6);
+      ctx.lineTo(11.5, 144.6);
       ctx.restore();
     }
 
